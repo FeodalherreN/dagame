@@ -1,4 +1,5 @@
-var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update, render: render });
+var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'da-game',
+{ preload: preload, create: create, update: update, render: render });
 
 function preload() {
 
@@ -28,7 +29,7 @@ function create() {
 
     game.stage.backgroundColor = '#000000';
 
-    bg = game.add.tileSprite(0, 0, 800, 600, 'background');
+    bg = game.add.tileSprite(0, 0, window.innerWidth, window.innerHeight, 'background');
     bg.fixedToCamera = true;
 
     map = game.add.tilemap('level1');
@@ -44,7 +45,7 @@ function create() {
 
     layer.resizeWorld();
 
-    game.physics.arcade.gravity.y = 250;
+    game.physics.arcade.gravity.y = 200;
 
     player = game.add.sprite(32, 32, 'dude');
     game.physics.enable(player, Phaser.Physics.ARCADE);
@@ -119,8 +120,8 @@ function update() {
 
 function render () {
 
-    // game.debug.text(game.time.physicsElapsed, 32, 32);
-    // game.debug.body(player);
-    // game.debug.bodyInfo(player, 16, 24);
+     game.debug.text(game.time.physicsElapsed, 32, 32);
+     game.debug.body(player);
+     game.debug.bodyInfo(player, 16, 24);
 
 }
