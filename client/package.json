@@ -12,6 +12,7 @@
     "css-loader": "^0.28.4",
     "http-server": "^0.10.0",
     "phaser": "^2.6.2",
+    "sockjs-client": "^1.1.4",
     "style-loader": "^0.18.1",
     "vertx3-eventbus-client": "^3.4.1",
     "webpack": "^2.6.1"
