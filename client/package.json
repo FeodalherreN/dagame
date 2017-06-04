@@ -13,6 +13,7 @@
     "http-server": "^0.10.0",
     "phaser": "^2.6.2",
     "style-loader": "^0.18.1",
+    "vertx3-eventbus-client": "^3.4.1",
     "webpack": "^2.6.1"
   }
 }
