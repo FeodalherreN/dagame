@@ -177,8 +177,8 @@ function create() {
     bullets.enableBody = true;
     bullets.physicsBodyType = Phaser.Physics.ARCADE;
     bullets.createMultiple(30, 'bullet');
-    bullets.setAll('anchor.x', 0.5);
-    bullets.setAll('anchor.y', 1);
+    bullets.setAll('anchor.x', -2);
+    bullets.setAll('anchor.y', -2);
     bullets.setAll('outOfBoundsKill', true);
     bullets.setAll('checkWorldBounds', true);
 
@@ -204,6 +204,7 @@ function update() {
         {
             player.animations.play('left');
             facing = 'left';
+            facingLast = facing;
         }
     }
     else if (cursors.right.isDown)
@@ -214,6 +215,7 @@ function update() {
         {
             player.animations.play('right');
             facing = 'right';
+            facingLast = facing;
         }
     }
     else
