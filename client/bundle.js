@@ -63,25 +63,56 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-
+__webpack_require__(2);
+__webpack_require__(3);
 
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(5);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(7)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!./style.css", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!./style.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports) {
 
 var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'da-game',
 { preload: preload, create: create, update: update, render: render });
 
 function preload() {
-
     game.load.tilemap('level1', 'assets/starstruck/level1.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('tiles-1', 'assets/starstruck/tiles-1.png');
     game.load.spritesheet('dude', 'assets/starstruck/dude.png', 32, 48);
@@ -89,17 +120,22 @@ function preload() {
     game.load.image('starSmall', 'assets/starstruck/star.png');
     game.load.image('starBig', 'assets/starstruck/star2.png');
     game.load.image('background', 'assets/starstruck/background2.png');
-
+    game.load.image('bullet', 'assets/starstruck/bullets.png');
 }
 
 var map;
 var tileset;
 var layer;
 var player;
+var bullet;
+var bullets;
+var bulletTime = 0;
 var facing = 'left';
+var facingLast = 'Left';
 var jumpTimer = 0;
 var cursors;
 var jumpButton;
+var fireButton;
 var bg;
 
 function create() {
@@ -137,10 +173,20 @@ function create() {
     player.animations.add('turn', [4], 20, true);
     player.animations.add('right', [5, 6, 7, 8], 10, true);
 
+    bullets = game.add.group();
+    bullets.enableBody = true;
+    bullets.physicsBodyType = Phaser.Physics.ARCADE;
+    bullets.createMultiple(30, 'bullet');
+    bullets.setAll('anchor.x', 0.5);
+    bullets.setAll('anchor.y', 1);
+    bullets.setAll('outOfBoundsKill', true);
+    bullets.setAll('checkWorldBounds', true);
+
     game.camera.follow(player);
 
     cursors = game.input.keyboard.createCursorKeys();
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    fireButton = game.input.keyboard.addKey(Phaser.KeyCode.C);
 
 }
 
@@ -184,7 +230,7 @@ function update() {
             {
                 player.frame = 5;
             }
-
+            facingLast = facing;
             facing = 'idle';
         }
     }
@@ -193,6 +239,10 @@ function update() {
     {
         player.body.velocity.y = -250;
         jumpTimer = game.time.now + 750;
+    }
+    if (fireButton.isDown)
+    {
+    fireBullet();
     }
 
 }
@@ -205,52 +255,53 @@ function render () {
 
 }
 
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(4);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(6)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!./style.css", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!./style.css");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
+function fireBullet () {
+    //  To avoid them being allowed to fire too fast we set a time limit
+    if (game.time.now > bulletTime)
+    {
+        //  Grab the first bullet we can from the pool
+        bullet = bullets.getFirstExists(false);
+        if (bullet)
+        {
+            //  And fire it
+            bullet.reset(player.x, player.y + 8);
+            if(facingLast == 'right'){
+              bullet.body.velocity.x = +400;
+            } else if(facingLast == 'left'){
+              bullet.body.velocity.x = -400;
+            }
+            bulletTime = game.time.now + 200;
+        }
+    }
 }
+
+function resetBullet (bullet) {
+
+    //  Called if the bullet goes out of the screen
+    bullet.kill();
+
+}
+
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-__webpack_require__(2);
-__webpack_require__(0);
-  document.write(__webpack_require__(1));
 
 
 /***/ }),
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(5)(undefined);
+__webpack_require__(1);
+  document.write(__webpack_require__(0));
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(6)(undefined);
 // imports
 
 
@@ -261,7 +312,7 @@ exports.push([module.i, "html {\n  width: 100%;\n  height: 100%;\n}\nbody {\n  \
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports) {
 
 /*
@@ -343,7 +394,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -389,7 +440,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(7);
+var	fixUrls = __webpack_require__(8);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -702,7 +753,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports) {
 
 
