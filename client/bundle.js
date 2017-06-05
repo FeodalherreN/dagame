@@ -63,25 +63,26 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(2);
 __webpack_require__(3);
+__webpack_require__(4);
 
 
 /***/ }),
-/* 1 */
+/* 1 */,
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(5);
+var content = __webpack_require__(7);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -89,7 +90,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(7)(content, options);
+var update = __webpack_require__(9)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -106,7 +107,7 @@ if(false) {
 }
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports) {
 
 var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game-area',
@@ -297,35 +298,36 @@ function resetBullet (bullet) {
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports) {
 
 
 
 /***/ }),
-/* 4 */
+/* 5 */,
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(1);
+__webpack_require__(2);
 __webpack_require__(0)
 
 
 /***/ }),
-/* 5 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(6)(undefined);
+exports = module.exports = __webpack_require__(8)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "html {\n  width: 100%;\n  height: 100%;\n}\nbody {\n background-color: #000000;\n}\n.game-area {\n  padding: 0;\n   margin: auto;\n   display: block;\n   width: 800px;\n   height: 600px;\n   position: absolute;\n   top: 0;\n   bottom: 0;\n   left: 0;\n   right: 0;\n}\n", ""]);
+exports.push([module.i, "html {\n  width: 100%;\n  height: 100%;\n}\nbody {\n background-color: #000000;\n}\n.game-area {\n  padding: 7px;\n   margin: auto;\n   display: block;\n   width: 800px;\n   height: 600px;\n   position: absolute;\n   top: 0;\n   bottom: 0;\n   left: 0;\n   right: 0;\n   border-radius: 25px;\nborder: 2px solid #73AD21;\n}\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 6 */
+/* 8 */
 /***/ (function(module, exports) {
 
 /*
@@ -407,7 +409,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -453,7 +455,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(8);
+var	fixUrls = __webpack_require__(10);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -766,7 +768,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports) {
 
 
