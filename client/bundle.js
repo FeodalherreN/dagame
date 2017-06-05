@@ -319,7 +319,7 @@ exports = module.exports = __webpack_require__(6)(undefined);
 
 
 // module
-exports.push([module.i, "html {\n  width: 100%;\n  height: 100%;\n}\nbody {\n\n}\n.game-area {\n  display: block;\n  margin: 0 auto;\n}\n", ""]);
+exports.push([module.i, "html {\n  width: 100%;\n  height: 100%;\n}\nbody {\n background-color: #000000;\n}\n.game-area {\n  padding: 0;\n   margin: auto;\n   display: block;\n   width: 800px;\n   height: 600px;\n   position: absolute;\n   top: 0;\n   bottom: 0;\n   left: 0;\n   right: 0;\n}\n", ""]);
 
 // exports
 
