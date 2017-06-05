@@ -123,10 +123,12 @@ function preload() {
     game.load.image('background', 'assets/starstruck/background2.png');
     game.load.image('bullet', 'assets/starstruck/bullets.png');
 
+    //SOUNDS
     game.load.audio('blaster', 'assets/soundeffects/blaster.mp3');
     game.load.audio('enemy_hit', 'assets/soundeffects/enemy-hit.wav');
-    game.load.audio('steps', 'assets/soundeffects/steps.mp3');
-    game.load.audio('wall_hit', 'assets/soundeffects/wall-hit.wav')
+    game.load.audio('steps', 'assets/soundeffects/steps.wav');
+    game.load.audio('wall_hit', 'assets/soundeffects/wall-hit.wav');
+    game.load.audio('jump', 'assets/soundeffects/jump.wav');
 }
 
 var map;
@@ -148,6 +150,7 @@ var blaster;
 var enemy_hit;
 var steps;
 var wall_hit;
+var jump;
 
 function create() {
 
@@ -196,10 +199,10 @@ function create() {
     game.camera.follow(player);
 
     blaster = game.add.audio('blaster');
-    blaster.volume =- 0.3;
     enemy_hit = game.add.audio('enemy_hit');
     steps = game.add.audio('steps');
     wall_hit = game.add.audio('wall_hit');
+    jump = game.add.audio('jump');
 
     cursors = game.input.keyboard.createCursorKeys();
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -216,6 +219,9 @@ function update() {
     if (cursors.left.isDown)
     {
         player.body.velocity.x = -150;
+        if(player.body.onFloor()){
+          steps.play('', 0, 0.1, false, false);
+        }
 
         if (facing != 'left')
         {
@@ -227,6 +233,9 @@ function update() {
     else if (cursors.right.isDown)
     {
         player.body.velocity.x = 150;
+        if(player.body.onFloor()){
+          steps.play('', 0, 0.1, false, false);
+        }
 
         if (facing != 'right')
         {
@@ -256,13 +265,14 @@ function update() {
 
     if (jumpButton.isDown && player.body.onFloor() && game.time.now > jumpTimer)
     {
+        jump.play('', 0, 0.1, false, false);
         player.body.velocity.y = -250;
         jumpTimer = game.time.now + 750;
     }
     if (fireButton.isDown)
     {
         fireBullet();
-        blaster.play();
+        blaster.play('', 0, 0.1, false, false);
     }
 }
 
