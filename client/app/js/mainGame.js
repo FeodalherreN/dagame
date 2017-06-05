@@ -1,4 +1,4 @@
-var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'da-game',
+var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game-area',
 { preload: preload, create: create, update: update, render: render });
 
 function preload() {
@@ -10,6 +10,11 @@ function preload() {
     game.load.image('starBig', 'assets/starstruck/star2.png');
     game.load.image('background', 'assets/starstruck/background2.png');
     game.load.image('bullet', 'assets/starstruck/bullets.png');
+
+    game.load.audio('blaster', 'assets/soundeffects/blaster.mp3');
+    game.load.audio('enemy_hit', 'assets/soundeffects/enemy-hit.wav');
+    game.load.audio('steps', 'assets/soundeffects/steps.mp3');
+    game.load.audio('wall_hit', 'assets/soundeffects/wall-hit.wav')
 }
 
 var map;
@@ -27,13 +32,18 @@ var jumpButton;
 var fireButton;
 var bg;
 
+var blaster;
+var enemy_hit;
+var steps;
+var wall_hit;
+
 function create() {
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     game.stage.backgroundColor = '#000000';
 
-    bg = game.add.tileSprite(0, 0, window.innerWidth, window.innerHeight, 'background');
+    bg = game.add.tileSprite(0, 0, document.body.clientWidth, document.body.clientHeight, 'background');
     bg.fixedToCamera = true;
 
     map = game.add.tilemap('level1');
@@ -45,7 +55,7 @@ function create() {
     layer = map.createLayer('Tile Layer 1');
 
     //  Un-comment this on to see the collision tiles
-    // layer.debug = true;
+    layer.debug = true;
 
     layer.resizeWorld();
 
@@ -72,6 +82,12 @@ function create() {
     bullets.setAll('checkWorldBounds', true);
 
     game.camera.follow(player);
+
+    blaster = game.add.audio('blaster');
+    blaster.volume =- 0.3;
+    enemy_hit = game.add.audio('enemy_hit');
+    steps = game.add.audio('steps');
+    wall_hit = game.add.audio('wall_hit');
 
     cursors = game.input.keyboard.createCursorKeys();
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -133,17 +149,15 @@ function update() {
     }
     if (fireButton.isDown)
     {
-    fireBullet();
+        fireBullet();
+        blaster.play();
     }
-
 }
 
 function render () {
-
      game.debug.text(game.time.physicsElapsed, 32, 32);
      game.debug.body(player);
      game.debug.bodyInfo(player, 16, 24);
-
 }
 
 function fireBullet () {
@@ -167,8 +181,5 @@ function fireBullet () {
 }
 
 function resetBullet (bullet) {
-
-    //  Called if the bullet goes out of the screen
     bullet.kill();
-
 }

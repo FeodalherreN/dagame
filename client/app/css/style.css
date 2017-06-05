@@ -3,5 +3,9 @@ html {
   height: 100%;
 }
 body {
-  
+
+}
+.game-area {
+  display: block;
+  margin: 0 auto;
 }
