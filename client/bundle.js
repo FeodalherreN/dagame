@@ -63,26 +63,25 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
+__webpack_require__(2);
 __webpack_require__(3);
-__webpack_require__(4);
 
 
 /***/ }),
-/* 1 */,
-/* 2 */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(7);
+var content = __webpack_require__(5);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -90,7 +89,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(9)(content, options);
+var update = __webpack_require__(7)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -107,7 +106,7 @@ if(false) {
 }
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, exports) {
 
 var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game-area',
@@ -207,6 +206,7 @@ function create() {
     cursors = game.input.keyboard.createCursorKeys();
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     fireButton = game.input.keyboard.addKey(Phaser.KeyCode.C);
+    game.input.mouse.capture = true;
 
 }
 
@@ -269,7 +269,7 @@ function update() {
         player.body.velocity.y = -250;
         jumpTimer = game.time.now + 750;
     }
-    if (fireButton.isDown)
+    if (fireButton.isDown || game.input.activePointer.leftButton.isDown)
     {
         fireBullet();
         blaster.play('', 0, 0.1, false, false);
@@ -308,25 +308,24 @@ function resetBullet (bullet) {
 
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports) {
 
 
 
 /***/ }),
-/* 5 */,
-/* 6 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(2);
+__webpack_require__(1);
 __webpack_require__(0)
 
 
 /***/ }),
-/* 7 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(8)(undefined);
+exports = module.exports = __webpack_require__(6)(undefined);
 // imports
 
 
@@ -337,7 +336,7 @@ exports.push([module.i, "html {\n  width: 100%;\n  height: 100%;\n}\nbody {\n ba
 
 
 /***/ }),
-/* 8 */
+/* 6 */
 /***/ (function(module, exports) {
 
 /*
@@ -419,7 +418,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 9 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -465,7 +464,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(10);
+var	fixUrls = __webpack_require__(8);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -778,7 +777,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 10 */
+/* 8 */
 /***/ (function(module, exports) {
 
 

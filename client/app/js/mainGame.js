@@ -95,6 +95,7 @@ function create() {
     cursors = game.input.keyboard.createCursorKeys();
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     fireButton = game.input.keyboard.addKey(Phaser.KeyCode.C);
+    game.input.mouse.capture = true;
 
 }
 
@@ -157,7 +158,7 @@ function update() {
         player.body.velocity.y = -250;
         jumpTimer = game.time.now + 750;
     }
-    if (fireButton.isDown)
+    if (fireButton.isDown || game.input.activePointer.leftButton.isDown)
     {
         fireBullet();
         blaster.play('', 0, 0.1, false, false);
